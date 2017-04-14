@@ -17,7 +17,7 @@ out_path = '/home/zzzzzui/Tianchi/8-floor-players/dataSets/afterPre'
 
 fileName = 'trajectories(table 5)_training.csv'
 links_fileName = 'links (table 3).csv'
-weather_fileName = 'weather(table 7)_training.csv'
+weather_fileName = 'weather (table 7)_training_update.csv'
 holiday_fileName = 'holidays_dummies.csv'
                            
 links_info = pd.read_csv(path + '/' + links_fileName, dtype=str)
@@ -79,9 +79,7 @@ for link_No in link_dict:
         link_dict[link_No][timewindow] = sum(link_dict[link_No][timewindow])/len(link_dict[link_No][timewindow])
     
     aDF = DataFrame(link_dict[link_No], index=[0]).T
-
     aDF.columns = ['avg_travel_time']
-    #aDF = pd.concat([aDF, DataFrame(columns=weather_info.columns[:2])])
     aDF = pd.concat([aDF, DataFrame(columns=['date', 'hour', 'timewindow'])])
     aDF['date'] = aDF.index
     aDF['hour'] = aDF.index
