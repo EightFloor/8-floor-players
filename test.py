@@ -7,12 +7,12 @@ Created on Fri Mar 31 10:17:53 2017
 """
 
 import os
-import re
 import pandas as pd
 from pandas import DataFrame, Series
-import matplotlib.pyplot as plt
+from sklearn import preprocessing
 
-path = os.getcwd() + '/dataSets/training'
+path = os.getcwd() + '/dataSets/afterPre'
+to_path = os.getcwd() + '/dataSets/afterScale'
 #pattern = '.csv'
 #trainOriginal = [a for a in os.listdir(path) if re.search(pattern, a)]
 '''
@@ -23,6 +23,14 @@ links = pd.read_csv(path + '/' + 'links (table 3).csv', dtype='str')
 weather = pd.read_csv(path + '/' + 'weather (table 7)_training.csv', dtype='str')
 '''
 
-X = weather.index
-Y = list(weather.rel_humidity)
-plt.plot(X, Y)
+for filename in os.listdir(path):
+    file = pd.read_csv(path+'/'+filename)
+    file = file.dropna()
+    file['precipitation'] = preprocessing.scale(file['precipitation'])
+    file['pressure'] = preprocessing.scale(file['pressure'])
+    file['rel_humidity'] = preprocessing.scale(file['rel_humidity'])
+    file['sea_pressure'] = preprocessing.scale(file['sea_pressure'])
+    file['temperature'] = preprocessing.scale(file['temperature'])
+    file['wind_direction'] = preprocessing.scale(file['wind_direction'])
+    file['wind_speed'] = preprocessing.scale(file['wind_speed'])
+    file.to_csv(to_path+'/'+filename, index=False)
